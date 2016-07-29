@@ -1,22 +1,34 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Steve on 7/27/2016.
- */
-public class Multimedium {
+public class Multimedium implements Parcelable{
 
+    @SerializedName("width")
+    @Expose
     private Integer width;
+    @SerializedName("url")
+    @Expose
     private String url;
+    @SerializedName("height")
+    @Expose
     private Integer height;
+    @SerializedName("subtype")
+    @Expose
     private String subtype;
+    @SerializedName("legacy")
+    @Expose
     private Legacy legacy;
+    @SerializedName("type")
+    @Expose
     private String type;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-
 
     /**
      *
@@ -126,13 +138,42 @@ public class Multimedium {
         this.type = type;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.width);
+        dest.writeString(this.url);
+        dest.writeValue(this.height);
+        dest.writeString(this.subtype);
+        //dest.writeParcelable(this.legacy, flags);
+        dest.writeString(this.type);
     }
 
+    public Multimedium() {
+    }
 
+    protected Multimedium(Parcel in) {
+        this.width = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.url = in.readString();
+        this.height = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.subtype = in.readString();
+        //this.legacy = in.readParcelable(Legacy.class.getClassLoader());
+        this.type = in.readString();
+    }
+
+    public static final Creator<Multimedium> CREATOR = new Creator<Multimedium>() {
+        @Override
+        public Multimedium createFromParcel(Parcel source) {
+            return new Multimedium(source);
+        }
+
+        @Override
+        public Multimedium[] newArray(int size) {
+            return new Multimedium[size];
+        }
+    };
 }

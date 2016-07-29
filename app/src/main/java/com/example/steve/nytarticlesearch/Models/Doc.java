@@ -1,403 +1,425 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //import javax.annotation.Generated;
 
-//@Generated("org.jsonschema2pojo")
-public class Doc {
+public class Doc implements Parcelable {
+
+    @SerializedName("web_url")
+    @Expose
     private String webUrl;
+    @SerializedName("snippet")
+    @Expose
     private String snippet;
+    @SerializedName("lead_paragraph")
+    @Expose
     private String leadParagraph;
-    private String _abstract;
+    @SerializedName("abstract")
+    @Expose
+    private Object _abstract;
+    @SerializedName("print_page")
+    @Expose
     private String printPage;
+    @SerializedName("blog")
+    @Expose
     private List<Object> blog = new ArrayList<Object>();
+    @SerializedName("source")
+    @Expose
     private String source;
+    @SerializedName("multimedia")
+    @Expose
     private List<Multimedium> multimedia = new ArrayList<Multimedium>();
+    @SerializedName("headline")
+    @Expose
     private Headline headline;
+    @SerializedName("keywords")
+    @Expose
     private List<Keyword> keywords = new ArrayList<Keyword>();
+    @SerializedName("pub_date")
+    @Expose
     private String pubDate;
+    @SerializedName("document_type")
+    @Expose
     private String documentType;
+    @SerializedName("news_desk")
+    @Expose
     private String newsDesk;
+    @SerializedName("section_name")
+    @Expose
     private String sectionName;
-    private String subsectionName;
+    @SerializedName("subsection_name")
+    @Expose
+    private Object subsectionName;
+    @SerializedName("byline")
+    @Expose
     private Byline byline;
+    @SerializedName("type_of_material")
+    @Expose
     private String typeOfMaterial;
+    @SerializedName("_id")
+    @Expose
     private String id;
-    private String wordCount;
+    @SerializedName("word_count")
+    @Expose
+    private Integer wordCount;
+    @SerializedName("slideshow_credits")
+    @Expose
     private Object slideshowCredits;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     *
-     * @return
-     * The webUrl
+     * @return The webUrl
      */
     public String getWebUrl() {
         return webUrl;
     }
 
     /**
-     *
-     * @param webUrl
-     * The web_url
+     * @param webUrl The web_url
      */
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
     }
 
     /**
-     *
-     * @return
-     * The snippet
+     * @return The snippet
      */
     public String getSnippet() {
         return snippet;
     }
 
     /**
-     *
-     * @param snippet
-     * The snippet
+     * @param snippet The snippet
      */
     public void setSnippet(String snippet) {
         this.snippet = snippet;
     }
 
     /**
-     *
-     * @return
-     * The leadParagraph
+     * @return The leadParagraph
      */
     public String getLeadParagraph() {
         return leadParagraph;
     }
 
     /**
-     *
-     * @param leadParagraph
-     * The lead_paragraph
+     * @param leadParagraph The lead_paragraph
      */
     public void setLeadParagraph(String leadParagraph) {
         this.leadParagraph = leadParagraph;
     }
 
     /**
-     *
-     * @return
-     * The _abstract
+     * @return The _abstract
      */
-    public String getAbstract() {
+    public Object getAbstract() {
         return _abstract;
     }
 
     /**
-     *
-     * @param _abstract
-     * The abstract
+     * @param _abstract The abstract
      */
-    public void setAbstract(String _abstract) {
+    public void setAbstract(Object _abstract) {
         this._abstract = _abstract;
     }
 
     /**
-     *
-     * @return
-     * The printPage
+     * @return The printPage
      */
     public String getPrintPage() {
         return printPage;
     }
 
     /**
-     *
-     * @param printPage
-     * The print_page
+     * @param printPage The print_page
      */
     public void setPrintPage(String printPage) {
         this.printPage = printPage;
     }
 
     /**
-     *
-     * @return
-     * The blog
+     * @return The blog
      */
     public List<Object> getBlog() {
         return blog;
     }
 
     /**
-     *
-     * @param blog
-     * The blog
+     * @param blog The blog
      */
     public void setBlog(List<Object> blog) {
         this.blog = blog;
     }
 
     /**
-     *
-     * @return
-     * The source
+     * @return The source
      */
     public String getSource() {
         return source;
     }
 
     /**
-     *
-     * @param source
-     * The source
+     * @param source The source
      */
     public void setSource(String source) {
         this.source = source;
     }
 
     /**
-     *
-     * @return
-     * The multimedia
+     * @return The multimedia
      */
     public List<Multimedium> getMultimedia() {
         return multimedia;
     }
 
     /**
-     *
-     * @param multimedia
-     * The multimedia
+     * @param multimedia The multimedia
      */
     public void setMultimedia(List<Multimedium> multimedia) {
         this.multimedia = multimedia;
     }
 
     /**
-     *
-     * @return
-     * The headline
+     * @return The headline
      */
     public Headline getHeadline() {
         return headline;
     }
 
     /**
-     *
-     * @param headline
-     * The headline
+     * @param headline The headline
      */
     public void setHeadline(Headline headline) {
         this.headline = headline;
     }
 
     /**
-     *
-     * @return
-     * The keywords
+     * @return The keywords
      */
     public List<Keyword> getKeywords() {
         return keywords;
     }
 
     /**
-     *
-     * @param keywords
-     * The keywords
+     * @param keywords The keywords
      */
     public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 
     /**
-     *
-     * @return
-     * The pubDate
+     * @return The pubDate
      */
     public String getPubDate() {
         return pubDate;
     }
 
     /**
-     *
-     * @param pubDate
-     * The pub_date
+     * @param pubDate The pub_date
      */
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 
     /**
-     *
-     * @return
-     * The documentType
+     * @return The documentType
      */
     public String getDocumentType() {
         return documentType;
     }
 
     /**
-     *
-     * @param documentType
-     * The document_type
+     * @param documentType The document_type
      */
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
 
     /**
-     *
-     * @return
-     * The newsDesk
+     * @return The newsDesk
      */
     public String getNewsDesk() {
         return newsDesk;
     }
 
     /**
-     *
-     * @param newsDesk
-     * The news_desk
+     * @param newsDesk The news_desk
      */
     public void setNewsDesk(String newsDesk) {
         this.newsDesk = newsDesk;
     }
 
     /**
-     *
-     * @return
-     * The sectionName
+     * @return The sectionName
      */
     public String getSectionName() {
         return sectionName;
     }
 
     /**
-     *
-     * @param sectionName
-     * The section_name
+     * @param sectionName The section_name
      */
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
     }
 
     /**
-     *
-     * @return
-     * The subsectionName
+     * @return The subsectionName
      */
-    public String getSubsectionName() {
+    public Object getSubsectionName() {
         return subsectionName;
     }
 
     /**
-     *
-     * @param subsectionName
-     * The subsection_name
+     * @param subsectionName The subsection_name
      */
-    public void setSubsectionName(String subsectionName) {
+    public void setSubsectionName(Object subsectionName) {
         this.subsectionName = subsectionName;
     }
 
     /**
-     *
-     * @return
-     * The byline
+     * @return The byline
      */
     public Byline getByline() {
         return byline;
     }
 
     /**
-     *
-     * @param byline
-     * The byline
+     * @param byline The byline
      */
     public void setByline(Byline byline) {
         this.byline = byline;
     }
 
     /**
-     *
-     * @return
-     * The typeOfMaterial
+     * @return The typeOfMaterial
      */
     public String getTypeOfMaterial() {
         return typeOfMaterial;
     }
 
     /**
-     *
-     * @param typeOfMaterial
-     * The type_of_material
+     * @param typeOfMaterial The type_of_material
      */
     public void setTypeOfMaterial(String typeOfMaterial) {
         this.typeOfMaterial = typeOfMaterial;
     }
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The _id
+     * @param id The _id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The wordCount
+     * @return The wordCount
      */
-    public String getWordCount() {
+    public Integer getWordCount() {
         return wordCount;
     }
 
     /**
-     *
-     * @param wordCount
-     * The word_count
+     * @param wordCount The word_count
      */
-    public void setWordCount(String wordCount) {
+    public void setWordCount(Integer wordCount) {
         this.wordCount = wordCount;
     }
 
     /**
-     *
-     * @return
-     * The slideshowCredits
+     * @return The slideshowCredits
      */
     public Object getSlideshowCredits() {
         return slideshowCredits;
     }
 
     /**
-     *
-     * @param slideshowCredits
-     * The slideshow_credits
+     * @param slideshowCredits The slideshow_credits
      */
     public void setSlideshowCredits(Object slideshowCredits) {
         this.slideshowCredits = slideshowCredits;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.webUrl);
+        dest.writeString(this.snippet);
+        dest.writeString(this.leadParagraph);
+        //dest.writeParcelable(this._abstract, flags);
+        dest.writeString(this.printPage);
+        //dest.writeList(this.blog);
+        dest.writeString(this.source);
+        dest.writeTypedList(this.multimedia);
+        dest.writeParcelable(this.headline, flags);
+        dest.writeTypedList(this.keywords);
+        dest.writeString(this.pubDate);
+        dest.writeString(this.documentType);
+        dest.writeString(this.newsDesk);
+        dest.writeString(this.sectionName);
+        //dest.writeParcelable(this.subsectionName, flags);
+        dest.writeParcelable(this.byline, flags);
+        dest.writeString(this.typeOfMaterial);
+        dest.writeString(this.id);
+        dest.writeValue(this.wordCount);
+        //dest.writeParcelable(this.slideshowCredits, flags);
     }
 
+    public Doc() {
+    }
 
+    protected Doc(Parcel in) {
+        this.webUrl = in.readString();
+        this.snippet = in.readString();
+        this.leadParagraph = in.readString();
+        //this._abstract = in.readParcelable(Object.class.getClassLoader());
+        this.printPage = in.readString();
+        //this.blog = new ArrayList<Object>();
+        // in.readList(this.blog, Object.class.getClassLoader());
+        this.source = in.readString();
+        this.multimedia = in.createTypedArrayList(Multimedium.CREATOR);
+        this.headline = in.readParcelable(Headline.class.getClassLoader());
+        this.keywords = in.createTypedArrayList(Keyword.CREATOR);
+        this.pubDate = in.readString();
+        this.documentType = in.readString();
+        this.newsDesk = in.readString();
+        this.sectionName = in.readString();
+        //this.subsectionName = in.readParcelable(Object.class.getClassLoader());
+        this.byline = in.readParcelable(Byline.class.getClassLoader());
+        this.typeOfMaterial = in.readString();
+        this.id = in.readString();
+        this.wordCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        //this.slideshowCredits = in.readParcelable(Object.class.getClassLoader());
+    }
 
+    public static final Creator<Doc> CREATOR = new Creator<Doc>() {
+        @Override
+        public Doc createFromParcel(Parcel source) {
+            return new Doc(source);
+        }
+
+        @Override
+        public Doc[] newArray(int size) {
+            return new Doc[size];
+        }
+    };
 }

@@ -1,51 +1,22 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Keyword {
+public class Keyword implements Parcelable {
 
-    private String rank;
-    private String isMajor;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("value")
+    @Expose
     private String value;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    /**
-     *
-     * @return
-     * The rank
-     */
-    public String getRank() {
-        return rank;
-    }
-
-    /**
-     *
-     * @param rank
-     * The rank
-     */
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    /**
-     *
-     * @return
-     * The isMajor
-     */
-    public String getIsMajor() {
-        return isMajor;
-    }
-
-    /**
-     *
-     * @param isMajor
-     * The is_major
-     */
-    public void setIsMajor(String isMajor) {
-        this.isMajor = isMajor;
-    }
 
     /**
      *
@@ -83,13 +54,34 @@ public class Keyword {
         this.value = value;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.value);
     }
 
+    public Keyword() {
+    }
 
+    protected Keyword(Parcel in) {
+        this.name = in.readString();
+        this.value = in.readString();
+    }
+
+    public static final Creator<Keyword> CREATOR = new Creator<Keyword>() {
+        @Override
+        public Keyword createFromParcel(Parcel source) {
+            return new Keyword(source);
+        }
+
+        @Override
+        public Keyword[] newArray(int size) {
+            return new Keyword[size];
+        }
+    };
 }

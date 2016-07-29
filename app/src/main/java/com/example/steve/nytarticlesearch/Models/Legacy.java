@@ -1,13 +1,22 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Legacy {
+
+    @SerializedName("thumbnailheight")
+    @Expose
     private String thumbnailheight;
+    @SerializedName("thumbnail")
+    @Expose
     private String thumbnail;
+    @SerializedName("thumbnailwidth")
+    @Expose
     private String thumbnailwidth;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      *
@@ -62,13 +71,4 @@ public class Legacy {
     public void setThumbnailwidth(String thumbnailwidth) {
         this.thumbnailwidth = thumbnailwidth;
     }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

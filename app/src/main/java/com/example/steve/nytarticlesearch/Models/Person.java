@@ -1,91 +1,51 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Steve on 7/27/2016.
  */
-public class Person {
+public class Person implements Parcelable{
 
-    private String firstname;
-    private String middlename;
-    private String lastname;
-    private Integer rank;
-    private String role;
+    @SerializedName("organization")
+    @Expose
     private String organization;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @SerializedName("role")
+    @Expose
+    private String role;
+    @SerializedName("firstname")
+    @Expose
+    private String firstname;
+    @SerializedName("rank")
+    @Expose
+    private Integer rank;
+    @SerializedName("lastname")
+    @Expose
+    private String lastname;
 
     /**
      *
      * @return
-     * The firstname
+     * The organization
      */
-    public String getFirstname() {
-        return firstname;
+    public String getOrganization() {
+        return organization;
     }
 
     /**
      *
-     * @param firstname
-     * The firstname
+     * @param organization
+     * The organization
      */
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    /**
-     *
-     * @return
-     * The middlename
-     */
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    /**
-     *
-     * @param middlename
-     * The middlename
-     */
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    /**
-     *
-     * @return
-     * The lastname
-     */
-    public String getLastname() {
-        return lastname;
-    }
-
-    /**
-     *
-     * @param lastname
-     * The lastname
-     */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    /**
-     *
-     * @return
-     * The rank
-     */
-    public Integer getRank() {
-        return rank;
-    }
-
-    /**
-     *
-     * @param rank
-     * The rank
-     */
-    public void setRank(Integer rank) {
-        this.rank = rank;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     /**
@@ -109,28 +69,91 @@ public class Person {
     /**
      *
      * @return
-     * The organization
+     * The firstname
      */
-    public String getOrganization() {
-        return organization;
+    public String getFirstname() {
+        return firstname;
     }
 
     /**
      *
-     * @param organization
-     * The organization
+     * @param firstname
+     * The firstname
      */
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    /**
+     *
+     * @return
+     * The rank
+     */
+    public Integer getRank() {
+        return rank;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    /**
+     *
+     * @param rank
+     * The rank
+     */
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 
+    /**
+     *
+     * @return
+     * The lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
 
+    /**
+     *
+     * @param lastname
+     * The lastname
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.organization);
+        dest.writeString(this.role);
+        dest.writeString(this.firstname);
+        dest.writeValue(this.rank);
+        dest.writeString(this.lastname);
+    }
+
+    public Person() {
+    }
+
+    protected Person(Parcel in) {
+        this.organization = in.readString();
+        this.role = in.readString();
+        this.firstname = in.readString();
+        this.rank = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.lastname = in.readString();
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel source) {
+            return new Person(source);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 }

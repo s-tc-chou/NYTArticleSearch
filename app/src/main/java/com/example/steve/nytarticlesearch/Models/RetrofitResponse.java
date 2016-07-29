@@ -1,15 +1,23 @@
 package com.example.steve.nytarticlesearch.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 //import javax.annotation.Generated;
 
-public class Example {
+public class RetrofitResponse {
 
+    @SerializedName("response")
+    @Expose
     private Response response;
+    @SerializedName("status")
+    @Expose
     private String status;
+    @SerializedName("copyright")
+    @Expose
     private String copyright;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      *
@@ -63,14 +71,6 @@ public class Example {
      */
     public void setCopyright(String copyright) {
         this.copyright = copyright;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }
