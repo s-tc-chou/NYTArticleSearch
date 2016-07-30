@@ -59,9 +59,9 @@ public class Doc implements Parcelable {
     @SerializedName("subsection_name")
     @Expose
     private Object subsectionName;
-    @SerializedName("byline")
-    @Expose
-    private Byline byline;
+    //@SerializedName("byline")
+    //@Expose
+    //private List<Byline> byline = new ArrayList<Byline>();
     @SerializedName("type_of_material")
     @Expose
     private String typeOfMaterial;
@@ -285,19 +285,6 @@ public class Doc implements Parcelable {
         this.subsectionName = subsectionName;
     }
 
-    /**
-     * @return The byline
-     */
-    public Byline getByline() {
-        return byline;
-    }
-
-    /**
-     * @param byline The byline
-     */
-    public void setByline(Byline byline) {
-        this.byline = byline;
-    }
 
     /**
      * @return The typeOfMaterial
@@ -377,7 +364,7 @@ public class Doc implements Parcelable {
         dest.writeString(this.newsDesk);
         dest.writeString(this.sectionName);
         //dest.writeParcelable(this.subsectionName, flags);
-        dest.writeParcelable(this.byline, flags);
+        //dest.writeTypedList(this.byline);
         dest.writeString(this.typeOfMaterial);
         dest.writeString(this.id);
         dest.writeValue(this.wordCount);
@@ -404,7 +391,7 @@ public class Doc implements Parcelable {
         this.newsDesk = in.readString();
         this.sectionName = in.readString();
         //this.subsectionName = in.readParcelable(Object.class.getClassLoader());
-        this.byline = in.readParcelable(Byline.class.getClassLoader());
+        //this.byline = in.createTypedArrayList(Byline.CREATOR);
         this.typeOfMaterial = in.readString();
         this.id = in.readString();
         this.wordCount = (Integer) in.readValue(Integer.class.getClassLoader());

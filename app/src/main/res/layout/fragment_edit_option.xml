@@ -9,7 +9,7 @@
         tools:context="com.example.steve.nytarticlesearch.Activities.editOptionFragment"
         android:weightSum="1">
 
-        <TextView
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etFilterText"
-            android:hint="@string/filter_hint"/>
+            android:hint="@string/filter_hint"/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -27,26 +27,49 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tvSortOrder"
             android:text="@string/sort_order" />
+        <Spinner
+            android:id="@+id/spOrderSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/sort_order_array"
+            android:prompt="@string/sort_order"
+            android:popupBackground="#FFFFFF"/>
 
-        <RadioGroup
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true">
-            <RadioButton
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/tvNewsDesk"
+            android:text="@string/tv_news_desk" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radio_newest"
-                android:id="@+id/rbNewest"
-                android:checked="true"
-                android:clickable="true" />
-            <RadioButton
+                android:id="@+id/cbArts"
+                android:clickable="true"
+                android:checked="false"
+                android:text="@string/cb_arts" />
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radio_oldest"
-                android:id="@+id/rbOldest"
-                android:clickable="true" />
-        </RadioGroup>
+                android:id="@+id/cbFashionStyle"
+                android:clickable="true"
+                android:checked="false"
+                android:text="@string/cb_fashion_style" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSports"
+                android:clickable="true"
+                android:checked="false"
+                android:text="@string/cb_sports" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -68,23 +91,23 @@
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
             android:spinnersShown="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginTop="-30dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_button"
-            android:id="@+id/btnSaveButton" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel_button"
-            android:id="@+id/btnCancelButton" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_button"
+                android:id="@+id/btnSaveButton" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel_button"
+                android:id="@+id/btnCancelButton" />
 
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.example.steve.nytarticlesearch.Models.editOptions;
 import com.example.steve.nytarticlesearch.R;
@@ -67,35 +73,78 @@ public class editOptionFragment extends DialogFragment {
         //check if null?
 
         //variables from settings
-        String filterText = settings.getFilter();
         String sortOrder = settings.getSortOrder();
         int year = settings.getYear();
         int month = settings.getMonth();
         int day = settings.getDay();
-        Boolean useBeginDate = settings.getUseBeginDate();
+        boolean useBeginDate = settings.getUseBeginDate();
+        boolean arts = settings.isArts();
+        boolean fashionStyle = settings.isFashionStyle();
+        boolean sports = settings.isSports();
 
-
-        //set filtertext, check for null.
-        if (filterText == null) {
-            binding.etFilterText.setText("");
-        } else {
-            binding.etFilterText.setText(filterText);
-        }
-
-        //set sort order radio button.
-        if (sortOrder.equals(getString(R.string.oldest))) {
-            binding.rbOldest.setChecked(true);
-            binding.rbNewest.setChecked(false);
-        } else {
-            binding.rbOldest.setChecked(false);
-            binding.rbNewest.setChecked(true);
-        }
+        //set spinner
+        initializeOrderSpinner(sortOrder);
 
         //set date picker for begin date & checkbox
         binding.dpBeginDate.updateDate(year, month, day);
         binding.cbUseBeginDate.setChecked(useBeginDate);
 
+        //set newsdesk checkboxes
+
+        if(arts)
+        {
+            binding.cbArts.setChecked(true);
+        }
+        if (fashionStyle)
+        {
+            binding.cbFashionStyle.setChecked(true);
+        }
+        if (sports)
+        {
+            binding.cbSports.setChecked(true);
+        }
+
     }
+
+    public void initializeOrderSpinner(String sortOrder)
+    {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_order_array, R.layout.support_simple_spinner_dropdown_item);
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        binding.spOrderSpinner.setAdapter(adapter);
+
+
+        if (sortOrder.equals(getString(R.string.oldest)))
+        {
+            int index = 0;
+            for (int i = 0; i < adapter.getCount(); i++) {
+                String spinnerItem = adapter.getItem(i).toString();
+                if (spinnerItem.equals(getString(R.string.spinner_oldest))) {
+                    index = i;
+                    break; // terminate loop
+                }
+            }
+            binding.spOrderSpinner.setSelection(index);
+        }
+
+        //set text color to white.
+        binding.spOrderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> arg0, View view,
+                                       int position, long id) {
+
+                TextView tmpView = (TextView) binding.spOrderSpinner.getSelectedView().findViewById(android.R.id.text1);
+                tmpView.setTextColor(Color.WHITE);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+
+    }
+
+
 
     public void initBtnSaveOnClickListener() {
 
@@ -105,19 +154,11 @@ public class editOptionFragment extends DialogFragment {
         binding.btnSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String filter = binding.etFilterText.getText().toString();
-                if (filter.equals(null) || filter.equals(""))
-                {
-                    filterAlert();
-                }
-                else {
                     //save all of our options
                     editOptions currentOption = getEverything();
                     onEditFinishedListener listener = (onEditFinishedListener) getActivity();
                     listener.onEditFinish(currentOption);
                     dismiss();
-                }
-
             }
         });
     }
@@ -134,34 +175,15 @@ public class editOptionFragment extends DialogFragment {
 
     //Helper functions -------------------------
 
-    //
-    public void filterAlert()
-    {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("Filter cannot be blank!");
-        builder1.setCancelable(true);
-
-        builder1.setNeutralButton(
-                "Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
-
     //set all our variables in the settings menu
     private editOptions getEverything()
     {
 
-        String filterText = binding.etFilterText.getText().toString();
+        String spinnerItem = binding.spOrderSpinner.getSelectedItem().toString();
 
         //set sortOrder based on radio button
         String sortOrder;
-        if (binding.rbNewest.isChecked())
+        if (spinnerItem.equals(getString(R.string.spinner_newest)))
         {
             sortOrder = getString(R.string.newest);
         }
@@ -175,8 +197,12 @@ public class editOptionFragment extends DialogFragment {
         int day = binding.dpBeginDate.getDayOfMonth();
         Boolean useBeginDate = binding.cbUseBeginDate.isChecked();
 
+        boolean art = binding.cbArts.isChecked();
+        boolean fashionStyle = binding.cbFashionStyle.isChecked();
+        boolean sports = binding.cbSports.isChecked();
+
         //instantiate the constructor with params we used.
-        editOptions currentSettings = new editOptions(filterText,sortOrder,year,month,day,useBeginDate);
+        editOptions currentSettings = new editOptions(art, fashionStyle, sports, sortOrder,year,month,day,useBeginDate,true);
 
         return currentSettings;
     }

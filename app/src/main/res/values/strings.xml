@@ -6,14 +6,19 @@
     <string name="edit_date">Begin Date</string>
     <string name="edit_filter">Filter</string>
     <string name="sort_order">Sort Order</string>
-    <string name="radio_oldest">Oldest First</string>
-    <string name="radio_newest">Newest First</string>
     <string name="save_button">Save</string>
     <string name="use_begin_date">Use Begin Date Filter?</string>
     <string name="filter_hint">Please enter a filter term</string>
+    <string name="spinner_oldest">Oldest First</string>
+    <string name="spinner_newest">Newest First</string>
     <string name="oldest">oldest</string>
     <string name="newest">newest</string>
     <string name="cancel_button">Cancel</string>
+    <string name="order_prompt">Sort Order</string>
+    <string name="cb_arts">Arts</string>
+    <string name="cb_fashion_style"><![CDATA[Fashion & Style]]></string>
+    <string name="cb_sports">Sports</string>
+    <string name="tv_news_desk">Genre</string>
 
 
 </resources>
