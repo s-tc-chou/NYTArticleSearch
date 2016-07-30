@@ -9,6 +9,11 @@
     <string name="radio_oldest">Oldest First</string>
     <string name="radio_newest">Newest First</string>
     <string name="save_button">Save</string>
+    <string name="use_begin_date">Use Begin Date Filter?</string>
+    <string name="filter_hint">Please enter a filter term</string>
+    <string name="oldest">oldest</string>
+    <string name="newest">newest</string>
+    <string name="cancel_button">Cancel</string>
 
 
 </resources>

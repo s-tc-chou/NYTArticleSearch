@@ -18,24 +18,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etFilterText"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvDatePicker"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/edit_date"/>
-        <DatePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dpBeginDate"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:spinnersShown="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            />
-
+            android:id="@+id/etFilterText"
+            android:hint="@string/filter_hint"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -47,35 +31,60 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_oldest"
-                android:id="@+id/rbOldest"/>
+            android:orientation="horizontal"
+            android:clickable="true">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/radio_newest"
-                android:id="@+id/rbNewest"/>
-            </RadioGroup>
+                android:id="@+id/rbNewest"
+                android:checked="true"
+                android:clickable="true" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_oldest"
+                android:id="@+id/rbOldest"
+                android:clickable="true" />
+        </RadioGroup>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDatePicker"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/edit_date"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbUseBeginDate"
+            android:text="@string/use_begin_date"
+            android:clickable="true"
+            android:checked="false" />
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dpBeginDate"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:spinnersShown="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save_button"
             android:id="@+id/btnSaveButton" />
-
-
-        <!--<DatePicker
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/datePicker"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:spinnersShown="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp" />-->
+            android:text="@string/cancel_button"
+            android:id="@+id/btnCancelButton" />
 
+            </LinearLayout>
     </LinearLayout>
 </layout>
