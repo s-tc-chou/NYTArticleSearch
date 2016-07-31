@@ -1,35 +1,23 @@
 package com.example.steve.nytarticlesearch.Activities;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.example.steve.nytarticlesearch.Models.editOptions;
 import com.example.steve.nytarticlesearch.R;
 import com.example.steve.nytarticlesearch.databinding.FragmentEditOptionBinding;
 
-import java.util.Calendar;
-
 
 //utilize databinding for fragment view options.
-
 public class editOptionFragment extends DialogFragment {
 
     //    private OnFragmentInteractionListener mListener;
@@ -144,10 +132,7 @@ public class editOptionFragment extends DialogFragment {
 
     }
 
-
-
     public void initBtnSaveOnClickListener() {
-
         //initialize object.
         settings = new editOptions();
 
@@ -174,7 +159,6 @@ public class editOptionFragment extends DialogFragment {
     }
 
     //Helper functions -------------------------
-
     //set all our variables in the settings menu
     private editOptions getEverything()
     {

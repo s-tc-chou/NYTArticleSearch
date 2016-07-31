@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.steve.nytarticlesearch.Models.Doc;
 import com.example.steve.nytarticlesearch.Models.Multimedium;
 import com.example.steve.nytarticlesearch.R;
@@ -53,12 +54,10 @@ public class ArticleArrayAdapter extends ArrayAdapter<Doc>{
         List<Multimedium> multimedia = article.getMultimedia();
         String thumbnail = "http://www.nytimes.com/";
 
-        if (multimedia.size() > 0)
-        {
+        if (multimedia.size() > 0) {
             thumbnail += multimedia.get(0).getUrl();
         }
-        else
-        {
+        else {
             thumbnail = "";
         }
 
@@ -78,10 +77,9 @@ public class ArticleArrayAdapter extends ArrayAdapter<Doc>{
 
 
             if(!TextUtils.isEmpty(thumbnail)) {
-                Picasso
+                Glide
                         .with(context)
                         .load(thumbnail)
-                        .fit()
                         //.placeholder(R.drawable.video_placeholder_640).error(R.drawable.notification_error)
                         .into(viewHolder.ivImage);
             }
