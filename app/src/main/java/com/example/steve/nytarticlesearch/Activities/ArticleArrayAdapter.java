@@ -65,34 +65,27 @@ public class ArticleArrayAdapter extends ArrayAdapter<Doc>{
         ViewHolder viewHolder;
 
         //check if existing view is being used
-
         //if not being used -> inflate the layout
         if (convertView == null || !(convertView.getTag() instanceof ViewHolder))
         {
             inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_article_result, parent, false);
             viewHolder = new ViewHolder(convertView);
-
-            //set viewholder pieces
-            viewHolder.tvTitle.setText(article.getHeadline().getMain());
-
-
-            if(!TextUtils.isEmpty(thumbnail)) {
-                Glide
-                        .with(context)
-                        .load(thumbnail)
-                        //.placeholder(R.drawable.video_placeholder_640).error(R.drawable.notification_error)
-                        .into(viewHolder.ivImage);
-            }
-
-            convertView.setTag(viewHolder);
         }
         else { viewHolder = (ViewHolder) convertView.getTag(); }
 
 
-        //clear out recycled image from convertView from last time
+        //set viewholder pieces
+        viewHolder.tvTitle.setText(article.getHeadline().getMain());
 
+        if(!TextUtils.isEmpty(thumbnail)) {
+            Glide
+                    .with(context)
+                    .load(thumbnail)
+                    .into(viewHolder.ivImage);
+        }
 
+        convertView.setTag(viewHolder);
 
         return convertView;
     }

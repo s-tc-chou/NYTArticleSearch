@@ -58,7 +58,6 @@ public class editOptionFragment extends DialogFragment {
         settings = myActivity.getCurrentSettings();
 
         //set all the fields.
-        //check if null?
 
         //variables from settings
         String sortOrder = settings.getSortOrder();
@@ -78,7 +77,6 @@ public class editOptionFragment extends DialogFragment {
         binding.cbUseBeginDate.setChecked(useBeginDate);
 
         //set newsdesk checkboxes
-
         if(arts)
         {
             binding.cbArts.setChecked(true);
@@ -97,11 +95,8 @@ public class editOptionFragment extends DialogFragment {
     public void initializeOrderSpinner(String sortOrder)
     {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_order_array, R.layout.support_simple_spinner_dropdown_item);
-
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
         binding.spOrderSpinner.setAdapter(adapter);
-
 
         if (sortOrder.equals(getString(R.string.oldest)))
         {
@@ -165,7 +160,7 @@ public class editOptionFragment extends DialogFragment {
 
         String spinnerItem = binding.spOrderSpinner.getSelectedItem().toString();
 
-        //set sortOrder based on radio button
+        //set sort order based on spinner
         String sortOrder;
         if (spinnerItem.equals(getString(R.string.spinner_newest)))
         {

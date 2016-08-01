@@ -5,11 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,17 +20,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.example.steve.nytarticlesearch.Interfaces.RetrofitInterface;
 import com.example.steve.nytarticlesearch.Models.Doc;
-import com.example.steve.nytarticlesearch.Models.Response;
 import com.example.steve.nytarticlesearch.Models.RetrofitResponse;
 import com.example.steve.nytarticlesearch.Models.editOptions;
 import com.example.steve.nytarticlesearch.R;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -118,20 +110,19 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
             }
         });
 
+        //setup hook for infinite scroll
         gvResults.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
 
                 customLoadMoreDataFromApi(mCurrentPage);
-                //Toast.makeText(getApplicationContext(),"load more " + page + " " + totalItemsCount, Toast.LENGTH_SHORT).show();
                 mCurrentPage++;
                 return false;
             }
         });
     }
 
-    //endless scrolling pieces--------------------------------------------------
-
+    //endless scrolling pieces from codepath--------------------------------------------------
     public abstract class EndlessScrollListener implements AbsListView.OnScrollListener{
         // The minimum number of items to have below your current scroll position
         // before loading more.
@@ -198,7 +189,6 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         }
     }
 
-
     // Append more data into the adapter
     public void customLoadMoreDataFromApi(int offset) {
         //mCurrentPage holds the current page count.
@@ -211,8 +201,6 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         // Deserialize API response and then construct new objects to append to the adapter
     }
 
-    //getter for setting pieces.
-    public editOptions getCurrentSettings() {return settings;}
 
     //Toolbar functions -----------------------------------------
     @Override
@@ -240,7 +228,6 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
     }
 
     //Fragment functions ---------------------------------
-
     //launch the settings dialog
     private void showSettingDialog() {
         FragmentManager fm = getSupportFragmentManager();
@@ -248,7 +235,6 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         editFragment.setStyle(editFragment.STYLE_NORMAL, android.R.style.Theme_Holo);
         editFragment.show(fm, "fragment_edit_options");
     }
-
 
     //Retrieve data from fragment.
     @Override
@@ -330,15 +316,22 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
             call.enqueue(new Callback<RetrofitResponse>() {
                 @Override
                 public void onResponse(Call<RetrofitResponse> call, retrofit2.Response<RetrofitResponse> response) {
-                    List<Doc> newDocs = response.body().getResponse().getDocs();
+                    //is the response good?
+                    if (response.body().getStatus().toString().equals("OK")) {
+                        List<Doc> newDocs = response.body().getResponse().getDocs();
 
-                    //only add to array if it's not a dupe
-                    if (!duplicateCheck(newDocs))
-                    {
-                        adapter.addAll(newDocs);
-                        adapter.notifyDataSetChanged();
-
+                        //only add to array if it's not a dupe
+                        if (!duplicateCheck(newDocs)) {
+                            adapter.addAll(newDocs);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
+                    //error on API.
+                    else
+                    {
+                        Log.e("RetrieveQuery()", "API Error ");
+                    }
+
                 }
 
                 @Override
@@ -346,14 +339,13 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
                     Log.e("RetrieveQuery()", "Retrofit callback failed");
                 }
             });
-            adapter.notifyDataSetChanged();
-
         }
         else {
             showOfflineAlert();
         }
     }
 
+    //check for duplicate listview items.  For some reason retrofit fires off an extra instance of the first page 0 search so that can't be added.
     private boolean duplicateCheck(List<Doc>newDocs)
     {
         boolean isDupe = false;
@@ -380,7 +372,7 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         return isDupe;
     }
 
-
+    //create the newsdesk filter string.
     private String createFilter()
     {
         String newsDesk = "news_desk:(";
@@ -428,7 +420,7 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
     //display message box if offline.
     public void showOfflineAlert()
     {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchActivity.this);
         builder1.setMessage("Need internet connection to view articles. ");
         builder1.setCancelable(true);
 
@@ -444,6 +436,7 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         alert11.show();
     }
 
+    //empty query will throw errors on the API, so we don't want that.
     public void showNoTextAlert()
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchActivity.this);
@@ -461,6 +454,9 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
+
+    //getter for setting pieces.
+    public editOptions getCurrentSettings() {return settings;}
 
 
 }
