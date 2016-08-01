@@ -8,12 +8,14 @@
         android:layout_height="75dp"
         android:id="@+id/ivImage"
         android:src="@drawable/ic_camera_alt_black_24dp"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:layout_marginTop="2dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvTitle"
         android:text="TextView"
         android:maxLines="2"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        android:layout_marginBottom="2dp"/>
 </LinearLayout>

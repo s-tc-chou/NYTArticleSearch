@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,6 +68,9 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
     //bundled fragment variables
     private editOptions settings;
 
+    //misc variables
+    private int mCurrentPage = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,8 +117,101 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
                 }
             }
         });
+
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                customLoadMoreDataFromApi(mCurrentPage);
+                //Toast.makeText(getApplicationContext(),"load more " + page + " " + totalItemsCount, Toast.LENGTH_SHORT).show();
+                mCurrentPage++;
+                return false;
+            }
+        });
     }
 
+    //endless scrolling pieces--------------------------------------------------
+
+    public abstract class EndlessScrollListener implements AbsListView.OnScrollListener{
+        // The minimum number of items to have below your current scroll position
+        // before loading more.
+        private int visibleThreshold = 10;
+        // The current offset index of data you have loaded
+        private int currentPage = 0;
+        // The total number of items in the dataset after the last load
+        private int previousTotalItemCount = 0;
+        // True if we are still waiting for the last set of data to load.
+        private boolean loading = true;
+        // Sets the starting page index
+        private int startingPageIndex = 0;
+
+        public EndlessScrollListener() {
+        }
+
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        public EndlessScrollListener(int visibleThreshold, int startPage) {
+            this.visibleThreshold = visibleThreshold;
+            this.startingPageIndex = startPage;
+            this.currentPage = startPage;
+        }
+
+        // This happens many times a second during a scroll, so be wary of the code you place here.
+        // We are given a few useful parameters to help us work out if we need to load some more data,
+        // but first we check if we are waiting for the previous load to finish.
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+        {
+            // If the total item count is zero and the previous isn't, assume the
+            // list is invalidated and should be reset back to initial state
+            if (totalItemCount < previousTotalItemCount) {
+                this.currentPage = this.startingPageIndex;
+                this.previousTotalItemCount = totalItemCount;
+                if (totalItemCount == 0) { this.loading = true; }
+            }
+            // If it's still loading, we check to see if the dataset count has
+            // changed, if so we conclude it has finished loading and update the current page
+            // number and total item count.
+            if (loading && (totalItemCount > previousTotalItemCount)) {
+                loading = false;
+                previousTotalItemCount = totalItemCount;
+                currentPage++;
+            }
+
+            // If it isn't currently loading, we check to see if we have breached
+            // the visibleThreshold and need to reload more data.
+            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+            if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+                loading = onLoadMore(currentPage + 1, totalItemCount);
+            }
+        }
+
+        // Defines the process for actually loading more data based on page
+        // Returns true if more data is being loaded; returns false if there is no more data to load.
+        public abstract boolean onLoadMore(int page, int totalItemsCount);
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            // Don't take any action on changed
+        }
+    }
+
+
+    // Append more data into the adapter
+    public void customLoadMoreDataFromApi(int offset) {
+        //mCurrentPage holds the current page count.
+        mCurrentPage = offset;
+        String query = etQuery.getText().toString();
+        RetrieveQuery(query);
+
+        // This method probably sends out a network request and appends new data items to your adapter.
+        // Use the offset value and add it as a parameter to your API request to retrieve paginated data.
+        // Deserialize API response and then construct new objects to append to the adapter
+    }
+
+    //getter for setting pieces.
     public editOptions getCurrentSettings() {return settings;}
 
     //Toolbar functions -----------------------------------------
@@ -134,11 +231,8 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
 
         //setting button pressed
         if (id == R.id.action_settings) {
-
             //launch fragment
             showSettingDialog();
-
-            //Toast.makeText(this,"setting pressed", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -160,14 +254,20 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
     @Override
     public void onEditFinish(editOptions editedSettings) {
         this.settings = editedSettings;
-        String query = etQuery.getText().toString();
     }
 
     //launches when search button is pressed.
     public void onArticleSearch(View view) {
         String query = etQuery.getText().toString();
-        adapter.clear();
-        RetrieveQuery(query);
+
+        if (query.equals("") || query.equals(null)) {
+            showNoTextAlert();
+        }
+        else {
+            mCurrentPage = 0;
+            adapter.clear();
+            RetrieveQuery(query);
+        }
     }
 
 
@@ -178,7 +278,6 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
         //retrieve news API only if there's internet.
         if (isNetworkAvailable() && isOnline()) {
 
-            docs = new ArrayList<Doc>();
             //http logging-------------------------------
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -208,22 +307,22 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
                 if(settings.isArts() || settings.isFashionStyle() || settings.isSports()) {
                     String filter = createFilter();//settings.getFilter();
                     if (settings.getUseBeginDate()) {
-                        call = apiService.getResponse(API_KEY, query, filter, sortOrder, beginDate);
+                        call = apiService.getResponse(API_KEY, query, mCurrentPage, filter, sortOrder, beginDate);
                     } else {
-                        call = apiService.getResponse(API_KEY, query, filter, sortOrder);
+                        call = apiService.getResponse(API_KEY, query, mCurrentPage, filter, sortOrder);
                     }
                 }
                 else {
                     if (settings.getUseBeginDate()) {
-                        call = apiService.getResponse(API_KEY, query, sortOrder, beginDate);
+                        call = apiService.getResponse(API_KEY, query, mCurrentPage, sortOrder, beginDate);
                     } else {
-                        call = apiService.getResponse(API_KEY, query, sortOrder);
+                        call = apiService.getResponse(API_KEY, query, mCurrentPage, sortOrder);
                     }
                 }
             }
             //no settings have been enabled, default calls.
             else {
-                call = apiService.getResponse(API_KEY, query);
+                call = apiService.getResponse(API_KEY, query, mCurrentPage);
 
             }
 
@@ -231,8 +330,15 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
             call.enqueue(new Callback<RetrofitResponse>() {
                 @Override
                 public void onResponse(Call<RetrofitResponse> call, retrofit2.Response<RetrofitResponse> response) {
-                    docs = response.body().getResponse().getDocs();
-                    adapter.addAll(docs);
+                    List<Doc> newDocs = response.body().getResponse().getDocs();
+
+                    //only add to array if it's not a dupe
+                    if (!duplicateCheck(newDocs))
+                    {
+                        adapter.addAll(newDocs);
+                        adapter.notifyDataSetChanged();
+
+                    }
                 }
 
                 @Override
@@ -240,10 +346,38 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
                     Log.e("RetrieveQuery()", "Retrofit callback failed");
                 }
             });
+            adapter.notifyDataSetChanged();
+
         }
         else {
             showOfflineAlert();
         }
+    }
+
+    private boolean duplicateCheck(List<Doc>newDocs)
+    {
+        boolean isDupe = false;
+
+        //look for just 1 duplicate.  If the record is already in the document list, ignore the whole batch.
+
+        String testTitle = "Not Duplicate";
+
+        if (newDocs.size() > 0)
+        {
+            testTitle = newDocs.get(0).getHeadline().getMain();
+        }
+
+        for (int i = 0; i < docs.size(); i++)
+        {
+            String docTitle = docs.get(i).getHeadline().getMain();
+            if (docTitle.equals(testTitle))
+            {
+                isDupe = true;
+                break;
+            }
+        }
+
+        return isDupe;
     }
 
 
@@ -296,6 +430,24 @@ public class SearchActivity extends AppCompatActivity implements editOptionFragm
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
         builder1.setMessage("Need internet connection to view articles. ");
+        builder1.setCancelable(true);
+
+        builder1.setNeutralButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public void showNoTextAlert()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchActivity.this);
+        builder1.setMessage("Please enter a search term. ");
         builder1.setCancelable(true);
 
         builder1.setNeutralButton(

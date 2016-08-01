@@ -19,29 +19,34 @@ public interface RetrofitInterface {
     //get
     @GET("/svc/search/v2/articlesearch.json?")
     Call<RetrofitResponse> getResponse(@Query("api-key") String apiKey,
-                                       @Query("q") String query);
+                                       @Query("q") String query,
+                                       @Query("page") int page);
 
     @GET("/svc/search/v2/articlesearch.json?")
     Call<RetrofitResponse> getResponse(@Query("api-key") String apiKey,
                                        @Query("q") String query,
+                                       @Query("page") int page,
                                        @Query("fq") String filterQuery,
                                        @Query("sort") String sort);
     //no filter query.
     @GET("/svc/search/v2/articlesearch.json?")
     Call<RetrofitResponse> getResponse(@Query("api-key") String apiKey,
                                        @Query("q") String query,
+                                       @Query("page") int page,
                                        @Query("sort") String sort);
 
     @GET("/svc/search/v2/articlesearch.json?")
     Call<RetrofitResponse> getResponse(@Query("api-key") String apiKey,
                                        @Query("q") String query,
+                                       @Query("page") int page,
                                        @Query("sort") String sort,
                                        @Query("begin_date") Integer beginDate);
 
     @GET("/svc/search/v2/articlesearch.json?")
     Call<RetrofitResponse> getResponse(@Query("api-key") String apiKey,
                                        @Query("q") String query,
-                                       @Part("fq") String filterQuery,
+                                       @Query("page") int page,
+                                       @Query("fq") String filterQuery,
                                        @Query("sort") String sort,
                                        @Query("begin_date") Integer beginDate);
 
